@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💝 A Special Gift For You</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+  :root {
+    --rose: #c41e3a;
+    --deep: #7a0d22;
+    --blush: #f4c2c2;
+    --cream: #fdf6f0;
+    --gold: #d4a96a;
+    --dark: #1a0a0e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    font-family: 'Cormorant Garamond', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .hearts-bg {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .heart-float {
+    position: absolute;
+    font-size: 1.2rem;
+    opacity: 0;
+    animation: floatUp 8s ease-in infinite;
+  }
+
+  @keyframes floatUp {
+    0% { opacity: 0; transform: translateY(100vh) rotate(0deg); }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.2; }
+    100% { opacity: 0; transform: translateY(-20vh) rotate(360deg); }
+  }
+
+  .page {
+    display: none;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+    padding: 40px 20px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+  }
+  .page.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .page-enter { animation: fadeIn 1s ease-out; }
+
+  /* ===== PAGE 1: QR ===== */
+  #page-qr { background: radial-gradient(ellipse at center, #2d0a14 0%, #0d0406 100%); }
+
+  .gift-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: var(--gold);
+    margin-bottom: 8px;
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { text-shadow: 0 0 20px rgba(212,169,106,0.4); }
+    50% { text-shadow: 0 0 50px rgba(212,169,106,0.9), 0 0 100px rgba(212,169,106,0.3); }
+  }
+
+  .gift-subtitle {
+    color: var(--blush);
+    font-style: italic;
+    font-size: 1.15rem;
+    margin-bottom: 35px;
+    opacity: 0.85;
+  }
+
+  .qr-frame {
+    background: white;
+    border-radius: 20px;
+    padding: 22px;
+    display: inline-block;
+    box-shadow: 0 0 60px rgba(196,30,58,0.5), 0 0 120px rgba(196,30,58,0.2);
+    animation: qr-pulse 4s ease-in-out infinite;
+    position: relative;
+  }
+
+  @keyframes qr-pulse {
+    0%, 100% { box-shadow: 0 0 40px rgba(196,30,58,0.3), 0 0 80px rgba(196,30,58,0.1); }
+    50% { box-shadow: 0 0 80px rgba(196,30,58,0.7), 0 0 160px rgba(196,30,58,0.3); }
+  }
+
+  .qr-img { width: 220px; height: 220px; display: block; }
+
+  .qr-corner {
+    position: absolute;
+    width: 22px; height: 22px;
+    border-color: var(--rose);
+    border-style: solid;
+  }
+  .qr-corner.tl { top: -6px; left: -6px; border-width: 3px 0 0 3px; }
+  .qr-corner.tr { top: -6px; right: -6px; border-width: 3px 3px 0 0; }
+  .qr-corner.bl { bottom: -6px; left: -6px; border-width: 0 0 3px 3px; }
+  .qr-corner.br { bottom: -6px; right: -6px; border-width: 0 3px 3px 0; }
+
+  .scan-hint {
+    color: var(--gold);
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 18px;
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ===== BUTTONS ===== */
+  .btn-rose {
+    background: linear-gradient(135deg, var(--rose), var(--deep));
+    color: white;
+    border: 2px solid var(--gold);
+    padding: 16px 50px;
+    border-radius: 50px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 8px 25px rgba(196,30,58,0.4);
+    margin-top: 30px;
+  }
+  .btn-rose:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 15px 40px rgba(196,30,58,0.65); }
+
+  .btn-green {
+    background: linear-gradient(135deg, #2d6a4f, #1b4332);
+    color: white;
+    border: 2px solid #52b788;
+    padding: 16px 50px;
+    border-radius: 50px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 8px 25px rgba(82,183,136,0.3);
+    margin-top: 30px;
+  }
+  .btn-green:hover { transform: translateY(-3px) scale(1.03); }
+
+  /* ===== PAGE 2: PASSWORD ===== */
+  #page-password { background: radial-gradient(ellipse at 30% 50%, #2d0a14 0%, #0d0406 100%); }
+
+  .lock-icon { font-size: 4rem; margin-bottom: 20px; animation: bounce 2s ease-in-out infinite; }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .pw-title { font-family: 'Dancing Script', cursive; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--gold); margin-bottom: 8px; }
+  .pw-subtitle { color: var(--blush); font-style: italic; font-size: 1.1rem; margin-bottom: 35px; opacity: 0.8; }
+
+  .pw-input {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(196,30,58,0.4);
+    border-radius: 50px;
+    padding: 16px 30px;
+    color: white;
+    font-size: 2rem;
+    letter-spacing: 10px;
+    text-align: center;
+    width: 260px;
+    outline: none;
+    font-family: 'Cormorant Garamond', serif;
+    transition: all 0.3s;
+    display: block;
+    margin: 0 auto 20px;
+  }
+  .pw-input:focus { border-color: var(--rose); background: rgba(196,30,58,0.1); box-shadow: 0 0 30px rgba(196,30,58,0.3); }
+
+  .pw-hint { color: rgba(244,194,194,0.55); font-style: italic; font-size: 0.9rem; margin-bottom: 20px; }
+
+  .pw-error { color: #ff6b6b; font-size: 0.95rem; margin-top: 15px; opacity: 0; transition: opacity 0.3s; font-style: italic; }
+  .pw-error.show { opacity: 1; }
+
+  /* ===== PAGE 3: VIDEOS ===== */
+  #page-videos { background: #0d0406; }
+
+  .video-section { width: 100%; max-width: 820px; margin: 0 auto; }
+  .video-header { font-family: 'Dancing Script', cursive; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--gold); margin-bottom: 6px; }
+  .video-counter { color: var(--rose); font-size: 0.85rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 24px; }
+
+  .video-wrap {
+    background: #000;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(196,30,58,0.3);
+    border: 1px solid rgba(196,30,58,0.2);
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .video-wrap video { width: 100%; max-height: 65vh; display: block; }
+
+  .loading-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 15px;
+    color: var(--blush);
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+  .loading-overlay.hide { display: none; }
+
+  .spinner {
+    width: 50px; height: 50px;
+    border: 3px solid rgba(196,30,58,0.2);
+    border-top-color: var(--rose);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .continue-btn {
+    background: linear-gradient(135deg, var(--rose), var(--deep));
+    color: white;
+    border: 2px solid var(--gold);
+    padding: 16px 55px;
+    border-radius: 50px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.45rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 8px 25px rgba(196,30,58,0.4);
+    animation: pulse-btn 2s ease-in-out infinite;
+    display: none;
+  }
+  .continue-btn.show { display: inline-block; }
+  @keyframes pulse-btn {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(196,30,58,0.65); }
+  }
+
+  /* ===== PAGE 4: FEEL MY LOVE ===== */
+  #page-feelmylove { background: radial-gradient(ellipse at center, #1a0510 0%, #080204 100%); }
+  .love-title { font-family: 'Dancing Script', cursive; font-size: clamp(2.5rem, 6vw, 5rem); color: var(--gold); text-shadow: 0 0 40px rgba(212,169,106,0.5); margin-bottom: 6px; }
+  .love-sub { color: var(--blush); font-style: italic; font-size: 1.1rem; margin-bottom: 25px; opacity: 0.8; }
+
+  /* ===== PAGE 5: HEARTBEAT ===== */
+  #page-heartbeat { background: radial-gradient(ellipse at center, #1a0510 0%, #05020a 100%); }
+
+  .steth-icon { font-size: 5rem; margin-bottom: 18px; animation: hb 1.2s ease-in-out infinite; }
+  @keyframes hb {
+    0%, 100% { transform: scale(1); }
+    14% { transform: scale(1.2); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.12); }
+    56% { transform: scale(1); }
+  }
+
+  .steth-title { font-family: 'Dancing Script', cursive; font-size: clamp(2rem, 5vw, 3.8rem); color: var(--rose); margin-bottom: 12px; }
+
+  .steth-poem {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--blush);
+    font-size: 1.15rem;
+    line-height: 2.1;
+    margin: 0 auto 25px;
+    max-width: 500px;
+    opacity: 0.92;
+  }
+
+  .ecg-svg { width: 100%; max-width: 400px; height: 80px; margin: 0 auto; display: block; }
+  .ecg-path {
+    stroke: var(--rose);
+    stroke-width: 2.5;
+    fill: none;
+    stroke-dasharray: 500;
+    stroke-dashoffset: 500;
+    animation: draw-ecg 2.2s ease-in-out infinite;
+  }
+  @keyframes draw-ecg {
+    0% { stroke-dashoffset: 500; opacity: 1; }
+    80% { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 0; }
+  }
+
+  .pappu-btn {
+    background: linear-gradient(135deg, var(--rose), #8b0030);
+    color: white;
+    border: 2px solid var(--gold);
+    padding: 18px 50px;
+    border-radius: 50px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 8px 30px rgba(196,30,58,0.5);
+    margin-top: 30px;
+    animation: hb 1.4s ease-in-out infinite;
+  }
+  .pappu-btn:hover { transform: scale(1.07); box-shadow: 0 15px 50px rgba(196,30,58,0.75); }
+
+  /* ===== PAGE 6: BABY TIPS ===== */
+  #page-babytips { background: linear-gradient(160deg, #0d0406 0%, #0a0515 50%, #050a0a 100%); }
+
+  .tips-title { font-family: 'Dancing Script', cursive; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--gold); margin-bottom: 6px; }
+  .tips-sub { color: var(--blush); font-style: italic; font-size: 1.05rem; margin-bottom: 35px; opacity: 0.8; }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 22px;
+    margin: 20px 0 35px;
+    text-align: left;
+    width: 100%;
+    max-width: 960px;
+  }
+
+  .step-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(196,30,58,0.2);
+    border-radius: 16px;
+    padding: 22px 22px 22px 26px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .step-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(to bottom, var(--rose), var(--gold));
+  }
+  .step-card:hover { border-color: rgba(196,30,58,0.5); background: rgba(196,30,58,0.05); transform: translateY(-3px); }
+
+  .step-num { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--rose); opacity: 0.25; position: absolute; top: 8px; right: 14px; line-height: 1; }
+  .step-icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .step-title { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.05rem; margin-bottom: 8px; }
+  .step-desc { color: rgba(244,194,194,0.82); font-size: 0.93rem; line-height: 1.7; }
+
+  /* ===== PAGE 7: HEALTH ===== */
+  #page-health { background: linear-gradient(160deg, #030a0a 0%, #050a05 50%, #0a0305 100%); }
+
+  .health-title { font-family: 'Dancing Script', cursive; font-size: clamp(2rem, 5vw, 3.5rem); color: #6fcf97; margin-bottom: 6px; text-shadow: 0 0 30px rgba(111,207,151,0.4); }
+  .health-sub { color: #b2f0cb; font-style: italic; font-size: 1.05rem; margin-bottom: 35px; opacity: 0.8; }
+
+  .health-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 26px;
+    margin: 10px 0 30px;
+    text-align: left;
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  .health-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(111,207,151,0.2);
+    border-radius: 18px;
+    padding: 26px;
+    transition: all 0.3s;
+  }
+  .health-card:hover { border-color: rgba(111,207,151,0.4); background: rgba(111,207,151,0.04); box-shadow: 0 10px 30px rgba(111,207,151,0.1); }
+
+  .health-card-title { font-family: 'Playfair Display', serif; color: #6fcf97; font-size: 1.1rem; margin-bottom: 14px; }
+
+  .health-list { list-style: none; padding: 0; }
+  .health-list li { color: rgba(178,240,203,0.82); font-size: 0.92rem; padding: 7px 0; border-bottom: 1px solid rgba(111,207,151,0.08); line-height: 1.6; display: flex; align-items: flex-start; gap: 8px; }
+  .health-list li:last-child { border-bottom: none; }
+  .health-list li::before { content: '✦'; color: #6fcf97; opacity: 0.5; flex-shrink: 0; margin-top: 2px; font-size: 0.75rem; }
+
+  .routine-title { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: #f2c94c; margin: 40px 0 22px; text-shadow: 0 0 20px rgba(242,201,76,0.4); }
+
+  .routine-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 18px;
+    text-align: left;
+    width: 100%;
+    max-width: 1000px;
+    margin-bottom: 30px;
+  }
+
+  .routine-card { background: rgba(242,201,76,0.04); border: 1px solid rgba(242,201,76,0.15); border-radius: 16px; padding: 20px; transition: all 0.3s; }
+  .routine-card:hover { border-color: rgba(242,201,76,0.3); transform: translateY(-3px); }
+  .routine-time { font-family: 'Dancing Script', cursive; color: #f2c94c; font-size: 1.25rem; margin-bottom: 10px; }
+  .routine-items { list-style: none; padding: 0; }
+  .routine-items li { color: rgba(255,240,180,0.78); font-size: 0.88rem; padding: 4px 0; line-height: 1.55; display: flex; gap: 6px; }
+  .routine-items li::before { content: '◦'; color: #f2c94c; }
+
+  .final-note { margin: 40px auto 20px; max-width: 580px; text-align: center; padding: 36px; border: 1px solid rgba(212,169,106,0.2); border-radius: 20px; background: rgba(212,169,106,0.03); }
+  .final-note-text { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--blush); font-size: 1.15rem; line-height: 2; opacity: 0.92; }
+  .final-heart { font-size: 3rem; display: block; margin-top: 18px; animation: hb 1.2s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<div class="hearts-bg" id="heartsContainer"></div>
+
+<!-- PAGE 1: QR -->
+<div class="page active page-enter" id="page-qr">
+  <div class="gift-title">💝 A Gift From The Heart</div>
+  <div class="gift-subtitle">Scan the QR code or tap below to open your special surprise</div>
+
+  <div style="position:relative; display:inline-block; margin: 20px auto;">
+    <div class="qr-frame">
+      <div class="qr-corner tl"></div>
+      <div class="qr-corner tr"></div>
+      <div class="qr-corner bl"></div>
+      <div class="qr-corner br"></div>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARQAAAEUCAIAAABlEl4uAAAEAElEQVR4nO3d0Y3bMBQAwTi4Pq4Qt5Uy0pYLSSVKAQHOvAVDWfTMtyHJEBb8eXi6HcfxA/i+n2c/AFyVeCASD0TigUg8EIkHIvFAJB6IxAOReCASD0QfIz96fN7/93O8rPufx9mPcBrv/WtOHojEA5F4IBIPROKBSDwQiQci8UAkHojEA5F4IBqabRtxxRmwd57dmuWd37uTByLxQCQeiMQDkXggEg9E4oFIPBCJByLxQCQeiKbNto1YOUt2xZmrXe363p08EIkHIvFAJB6IxAOReCASD0TigUg8EIkHIvFAJB6IxAOReCASD0TigUg8EIkHIvFAJB6IxAOReCASD0TigUg8EIkHIvFAJB6IxAOReCASD0TigUg8EIkHIvFAtPSbpL4T+p52fe9OHojEA5F4IBIPROKBSDwQiQci8UAkHojEA5F4IJo22/b4vM+61OWM/PeR+a5Xu86Id37vTh6IxAOReCASD0TigUg8EIkHIvFAJB6IxAOReCC6Hcdx9jPAJTl5IBIPROKBSDwQiQci8UAkHojEA5F4IBIPROKBaOk3SV/NrP1mv2+3p7/5NTBD6DrXuo6TByLxQCQeiMQDkXggEg9E4oFIPBCJByLxQCQeiOxtg8jJA5F4IBIPROKBSDwQiQci8UAkHojEA5F4IBIPRPa2PTFrb9uIK+4u2/U6I5w8EIkHIvFAJB6IxAOReCASD0TigUg8EIkHIvFAZG8bRE4eiMQDkXggEg9E4oFIPBCJByLxQCQeiMQDkXggsrftiVl722btCrvivXa9jpMHIvFAJB6IxAOReCASD0TigUg8EIkHIvFAJB6I7G2bYNaMHNfi5IFIPBCJByLxQCQeiMQDkXggEg9E4oFIPBCJB6Kh2baR2a1dzdrbNmLlvrURK3egzbLyeZw8EIkHIvFAJB6IxAOReCASD0TigUg8EIkHIvFANG227Yp7yXb9X6zh5IFIPBCJByLxQCQeiMQDkXggEg9E4oFIPBCJB6KPlTdbuf9t5UzarF1hu+5bu+Jeu5F7OXkgEg9E4oFIPBCJByLxQCQeiMQDkXggEg9E4oFo6WzbrmbNXK38dueu9xrhm6RwMvFAJB6IxAOReCASD0TigUg8EIkHIvFAJB6IzLZNYN/a115t35q9bXAy8UAkHojEA5F4IBIPROKBSDwQiQci8UAkHohux8AMz8i3RFd+A3SWXf8Xazh5IBIPROKBSDwQiQci8UAkHojEA5F4IBIPROKBaNretpE5sV292j6xK+5bG/Fqe+2cPBCJByLxQCQeiMQDkXggEg9E4oFIPBCJByLxQDS0tw34l5MHIvFAJB6IxAOReCASD0TigUg8EIkHIvFAJB6I/gJn1tt2TpQXzQAAAABJRU5ErkJggg==" class="qr-img" alt="QR Code">
+    </div>
+  </div>
+
+  <div class="scan-hint">⬆ Scan to unlock your gift ⬆</div>
+  <button class="btn-rose" onclick="goToPage('page-password')">✨ Open My Gift ✨</button>
+  <div style="color:rgba(244,194,194,0.35); font-size:0.85rem; margin-top:20px; font-style:italic;">A surprise wrapped with love, waiting just for you...</div>
+</div>
+
+<!-- PAGE 2: PASSWORD -->
+<div class="page" id="page-password">
+  <div class="lock-icon" id="lockIcon">🔐</div>
+  <div class="pw-title">Enter Your Secret Code</div>
+  <div class="pw-subtitle">Only the one I love knows this key...</div>
+  <input type="password" class="pw-input" id="pwInput" maxlength="6" placeholder="• • • • • •"
+    onkeydown="if(event.key==='Enter') checkPassword()" autocomplete="off">
+  <div class="pw-hint">💡 A date so special, only you would remember...</div>
+  <button class="btn-rose" onclick="checkPassword()">💖 Unlock the Love 💖</button>
+  <div class="pw-error" id="pwError">✗ That's not quite right, my love. Try again...</div>
+</div>
+
+<!-- PAGE 3: VIDEOS -->
+<div class="page" id="page-videos">
+  <div class="video-section">
+    <div class="video-header" id="videoTitle">Our Story Begins...</div>
+    <div class="video-counter" id="videoCounter">VIDEO 1 OF 5</div>
+    <div class="video-wrap">
+      <video id="mainVideo" controls playsinline controlsList="nodownload" preload="auto">
+        Your browser does not support HTML5 video.
+      </video>
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <span>Loading your love story...</span>
+      </div>
+    </div>
+    <button class="continue-btn" id="continueBtn" onclick="nextVideo()">▶ Continue Our Story ▶</button>
+  </div>
+</div>
+
+<!-- PAGE 4: FEEL MY LOVE -->
+<div class="page" id="page-feelmylove">
+  <div style="max-width:820px; width:100%;">
+    <div class="love-title">Feel My Love 💕</div>
+    <div class="love-sub">A special message straight from the heart...</div>
+    <div class="video-wrap">
+      <video id="loveVideo" controls playsinline controlsList="nodownload" preload="auto">
+        Your browser does not support HTML5 video.
+      </video>
+      <div class="loading-overlay" id="loveLoadingOverlay">
+        <div class="spinner"></div>
+        <span>Loading something special...</span>
+      </div>
+    </div>
+    <button class="btn-rose" style="margin-top:16px;" onclick="goToPage('page-heartbeat')">💓 Continue 💓</button>
+  </div>
+</div>
+
+<!-- PAGE 5: HEARTBEAT -->
+<div class="page" id="page-heartbeat">
+  <div style="max-width:650px; width:100%;">
+    <div class="steth-icon">🩺</div>
+    <div class="steth-title">Listen to the Heartbeat</div>
+    <div class="steth-poem">
+      Place the stethoscope gently...<br>
+      In the silence of love and memories,<br>
+      a tiny heart beats —<br>
+      soft as a whisper,<br>
+      strong as forever.<br><br>
+      <span style="color:var(--gold); font-size:1.3rem;">💗 Love lives in every beat 💗</span>
+    </div>
+    <svg class="ecg-svg" viewBox="0 0 400 80">
+      <path class="ecg-path" d="M0,40 L60,40 L70,40 L80,10 L90,70 L100,40 L110,40 L160,40 L170,40 L180,10 L190,70 L200,40 L210,40 L260,40 L270,40 L280,10 L290,70 L300,40 L310,40 L360,40 L370,40 L380,10 L390,70 L400,40"/>
+    </svg>
+    <div style="color:rgba(244,194,194,0.55); font-style:italic; font-size:1rem; margin:18px 0;">
+      The silence between beats carries a lifetime of memories...
+    </div>
+    <button class="pappu-btn" onclick="goToPage('page-babytips')">💓 Click to Hear Pappu's Heartbeat 💓</button>
+  </div>
+</div>
+
+<!-- PAGE 6: BABY TIPS -->
+<div class="page" id="page-babytips">
+  <div class="tips-title">👶 Hearing Pappu's Heartbeat</div>
+  <div class="tips-sub">Step-by-step guide to listening to your baby's heartbeat during pregnancy</div>
+
+  <div class="steps-grid">
+    <div class="step-card"><div class="step-num">01</div><div class="step-icon">📅</div><div class="step-title">When Can You First Hear It?</div><div class="step-desc">Baby's heartbeat begins around 6 weeks. Using a Doppler, you may hear it from week 10–12. With a stethoscope, it becomes audible around weeks 18–20. The earlier you try, the more patience you'll need.</div></div>
+    <div class="step-card"><div class="step-num">02</div><div class="step-icon">🩺</div><div class="step-title">Use a Fetal Doppler (Home Use)</div><div class="step-desc">Apply ultrasound gel to your lower abdomen. Place the probe just above the pubic bone. Move slowly in small circles. A healthy fetal heartbeat is 120–160 bpm — much faster than yours. Always use under doctor guidance.</div></div>
+    <div class="step-card"><div class="step-num">03</div><div class="step-icon">👂</div><div class="step-title">Using a Stethoscope (18–20 Weeks+)</div><div class="step-desc">Lie flat on your back in a quiet room. Place the stethoscope on your lower abdomen. Move it gently — the heartbeat sounds like a soft "woosh-woosh." It may take a few minutes to locate. Deep breaths help you stay still.</div></div>
+    <div class="step-card"><div class="step-num">04</div><div class="step-icon">🤲</div><div class="step-title">Find the Right Position</div><div class="step-desc">Baby's position changes constantly. Try slightly left or right of your belly button. After 24 weeks, the heartbeat location follows baby's back. Ask your midwife which way baby is facing. Listen after a meal when baby is active.</div></div>
+    <div class="step-card"><div class="step-num">05</div><div class="step-icon">🌙</div><div class="step-title">Best Time to Listen</div><div class="step-desc">Try early morning or 1 hour after eating — baby is most active then. A quiet environment helps. Warm hands on the belly beforehand can encourage baby to shift into a better listening position.</div></div>
+    <div class="step-card"><div class="step-num">06</div><div class="step-icon">💝</div><div class="step-title">Make It a Bonding Ritual</div><div class="step-desc">Invite your partner to listen together. Talk softly to baby — research shows babies can hear voices from 18 weeks. Place both hands around the stethoscope and take turns. This precious ritual creates lifelong memories.</div></div>
+    <div class="step-card"><div class="step-num">07</div><div class="step-icon">⚠️</div><div class="step-title">When to See Your Doctor</div><div class="step-desc">If you can't find the heartbeat at home, don't panic — position and equipment matter. Visit your OB/GYN if you notice reduced fetal movement or if baby's kick count changes significantly. Always trust your instincts.</div></div>
+    <div class="step-card"><div class="step-num">08</div><div class="step-icon">🎵</div><div class="step-title">The Sound of Life</div><div class="step-desc">A normal fetal heartbeat at 120–160 bpm sounds like a galloping horse. By the third trimester it may slightly slow. Your doctor uses a Doppler at every prenatal visit — you can ask to hear it each time!</div></div>
+  </div>
+
+  <button class="btn-green" onclick="goToPage('page-health')">🌿 See Pregnancy Health Tips 🌿</button>
+</div>
+
+<!-- PAGE 7: HEALTH -->
+<div class="page" id="page-health">
+  <div class="health-title">🌿 Safe &amp; Healthy Pregnancy</div>
+  <div class="health-sub">Everything you need for a beautiful, healthy journey — for Mama &amp; Pappu</div>
+
+  <div class="health-sections">
+    <div class="health-card"><div class="health-card-title">🥗 Nutrition for Two</div><ul class="health-list"><li>Take folic acid (400–800 mcg/day) to prevent neural tube defects</li><li>Eat iron-rich foods: spinach, lentils, red meat, fortified cereals</li><li>Calcium from dairy, almonds, and leafy greens for baby's bones</li><li>Omega-3 fatty acids (salmon, chia seeds) for brain development</li><li>Stay hydrated — 8–10 glasses of water daily</li><li>Eat small, frequent meals to manage nausea and blood sugar</li><li>Avoid raw fish, unpasteurized cheese, and high-mercury fish</li></ul></div>
+    <div class="health-card"><div class="health-card-title">🏃‍♀️ Safe Exercise</div><ul class="health-list"><li>30 minutes of moderate walking daily is ideal</li><li>Prenatal yoga helps with flexibility, breathing &amp; stress</li><li>Swimming is gentle, low-impact, and excellent for all trimesters</li><li>Avoid lying flat on your back after the first trimester</li><li>Stop if you feel pain, dizziness, or shortness of breath</li><li>Kegel exercises strengthen pelvic floor for labor and recovery</li><li>Always consult your OB before starting any new exercise</li></ul></div>
+    <div class="health-card"><div class="health-card-title">😴 Rest &amp; Sleep</div><ul class="health-list"><li>Sleep on your left side to improve blood flow to baby</li><li>Use a pregnancy pillow for support between knees and belly</li><li>Aim for 8–9 hours of sleep per night in the third trimester</li><li>Short naps (20–30 min) help with first trimester fatigue</li><li>Elevate your feet slightly to reduce ankle swelling</li><li>Avoid screens 1 hour before bedtime for better sleep quality</li></ul></div>
+    <div class="health-card"><div class="health-card-title">🩺 Prenatal Care</div><ul class="health-list"><li>Attend all scheduled prenatal appointments</li><li>First trimester: monthly visits; third trimester: weekly</li><li>Take prenatal vitamins daily as prescribed</li><li>Complete all recommended blood tests and ultrasounds</li><li>Glucose screening between weeks 24–28 for gestational diabetes</li><li>Monitor blood pressure regularly — watch for preeclampsia signs</li><li>Track baby's kick counts after 28 weeks</li></ul></div>
+    <div class="health-card"><div class="health-card-title">🧠 Mental Wellness</div><ul class="health-list"><li>Talk openly to your partner about feelings and fears</li><li>Join a prenatal class or mom support group</li><li>Practice deep breathing: 4 counts in, 4 hold, 6 out</li><li>Journal your pregnancy journey — it creates beautiful memories</li><li>Limit stressful news and social media; protect your peace</li><li>Seek help immediately if you feel persistently sad or anxious</li><li>Remember: it's okay not to feel okay — you're doing amazingly</li></ul></div>
+    <div class="health-card"><div class="health-card-title">⚠️ What to Avoid</div><ul class="health-list"><li>No alcohol — there is no safe amount during pregnancy</li><li>No smoking, and avoid secondhand smoke environments</li><li>Limit caffeine to 200mg/day (about 1 cup of coffee)</li><li>Avoid hot tubs, saunas, and overheating</li><li>No contact sports or activities with fall risk</li><li>Avoid harsh chemical cleaners — use natural alternatives</li><li>Don't take any medications without OB approval</li></ul></div>
+  </div>
+
+  <div class="routine-title">⏰ Daily Routine to Follow</div>
+  <div class="routine-grid">
+    <div class="routine-card"><div class="routine-time">🌅 Morning (6–9 AM)</div><ul class="routine-items"><li>Gentle stretches in bed before rising</li><li>Glass of warm water with lemon</li><li>Prenatal vitamins with breakfast</li><li>Light walk (15–20 minutes)</li><li>5 minutes of deep breathing</li></ul></div>
+    <div class="routine-card"><div class="routine-time">☀️ Midday (12–2 PM)</div><ul class="routine-items"><li>Nutritious lunch with protein &amp; veggies</li><li>Short rest or 20-min nap if needed</li><li>Count baby kicks (10 kicks in 2 hrs)</li><li>Stay hydrated — sip water constantly</li><li>Light activity or prenatal yoga</li></ul></div>
+    <div class="routine-card"><div class="routine-time">🌇 Evening (5–8 PM)</div><ul class="routine-items"><li>Balanced dinner — avoid heavy meals</li><li>Walk with your partner (bonding time!)</li><li>Elevate feet to reduce swelling</li><li>Listen to soft music with baby</li><li>Talk or read to your bump 💕</li></ul></div>
+    <div class="routine-card"><div class="routine-time">🌙 Night (9–10 PM)</div><ul class="routine-items"><li>Warm (not hot) shower or bath</li><li>Gentle belly massage with oil</li><li>Write in your pregnancy journal</li><li>Screen-free wind-down routine</li><li>Left-side sleeping position 💤</li></ul></div>
+    <div class="routine-card"><div class="routine-time">📋 Weekly Habits</div><ul class="routine-items"><li>Prenatal yoga class (2–3x/week)</li><li>Swimming or water aerobics</li><li>Call your doctor with any concerns</li><li>Meal prep healthy snacks ahead</li><li>Practice labor breathing techniques</li></ul></div>
+    <div class="routine-card"><div class="routine-time">💊 Supplements</div><ul class="routine-items"><li>Folic acid (until week 12 at least)</li><li>Prenatal multivitamin daily</li><li>Iron supplement if prescribed</li><li>Vitamin D (1000 IU, ask doctor)</li><li>Omega-3 / DHA supplement</li></ul></div>
+  </div>
+
+  <div class="final-note">
+    <div class="final-note-text">
+      "Every day you carry this little one is a day of pure magic.<br>
+      You are stronger than you know, more loved than you realize,<br>
+      and the most wonderful mama already — even now.<br><br>
+      Pappu is so lucky to have you. ✨<br><br>
+      <span style="color:var(--gold); font-family:'Dancing Script',cursive; font-size:1.4rem;">With all my love, always. 💝</span>
+    </div>
+    <span class="final-heart">💓</span>
+  </div>
+
+  <button class="btn-rose" onclick="goToPage('page-qr')" style="margin-bottom:60px;">🏠 Back to Beginning</button>
+</div>
+
+<script>
+  // Floating hearts
+  function createHeart() {
+    const c = document.getElementById('heartsContainer');
+    const h = document.createElement('div');
+    h.className = 'heart-float';
+    h.textContent = ['💕','💗','💓','💖','✨','🌸','💝'][Math.floor(Math.random()*7)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.fontSize = (0.8 + Math.random() * 1.4) + 'rem';
+    h.style.animationDuration = (6 + Math.random() * 6) + 's';
+    h.style.animationDelay = Math.random() * 3 + 's';
+    c.appendChild(h);
+    setTimeout(() => h.remove(), 13000);
+  }
+  setInterval(createHeart, 900);
+
+  // Page navigation
+  function goToPage(id) {
+    document.querySelectorAll('.page').forEach(p => {
+      p.classList.remove('active', 'page-enter');
+    });
+    const t = document.getElementById(id);
+    t.classList.add('active');
+    setTimeout(() => t.classList.add('page-enter'), 10);
+    window.scrollTo(0,0);
+    document.querySelectorAll('video').forEach(v => { try { v.pause(); } catch(e){} });
+    if (id === 'page-feelmylove') loadLoveVideo();
+  }
+
+  // Password
+  function checkPassword() {
+    const pw = document.getElementById('pwInput').value;
+    const err = document.getElementById('pwError');
+    if (pw === '190525') {
+      err.classList.remove('show');
+      document.getElementById('lockIcon').textContent = '🔓';
+      setTimeout(() => { goToPage('page-videos'); setupVideos(); }, 700);
+    } else {
+      err.classList.add('show');
+      document.getElementById('pwInput').style.borderColor = '#ff6b6b';
+      document.getElementById('pwInput').value = '';
+      setTimeout(() => {
+        document.getElementById('pwInput').style.borderColor = '';
+        err.classList.remove('show');
+      }, 3000);
+    }
+  }
+
+  // Videos — load from GitHub raw URLs
+  const BASE = 'https://raw.githubusercontent.com/vishwaa10/QR-/main/';
+  const videos = [
+    { src: BASE + '1.mp4',            title: 'Our Story Begins...',        counter: 'VIDEO 1 OF 5' },
+    { src: BASE + '2.mp4',            title: 'A Chapter of Love',          counter: 'VIDEO 2 OF 5' },
+    { src: BASE + '3.mp4',            title: 'Memories We Made',           counter: 'VIDEO 3 OF 5' },
+    { src: BASE + '4.mp4',            title: 'Our Beautiful Journey',      counter: 'VIDEO 4 OF 5' },
+    { src: BASE + '5.mp4',            title: 'The Best Is Yet to Come',    counter: 'VIDEO 5 OF 5' },
+  ];
+
+  let cur = 0;
+  let setupDone = false;
+
+  function setupVideos() {
+    if (setupDone) return;
+    setupDone = true;
+    const vid = document.getElementById('mainVideo');
+    vid.addEventListener('ended', () => {
+      document.getElementById('continueBtn').classList.add('show');
+    });
+    vid.addEventListener('canplay', () => {
+      document.getElementById('loadingOverlay').classList.add('hide');
+    });
+    loadVideo(0);
+  }
+
+  function loadVideo(idx) {
+    cur = idx;
+    const vid = document.getElementById('mainVideo');
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.classList.remove('hide');
+    document.getElementById('continueBtn').classList.remove('show');
+    document.getElementById('videoTitle').textContent = videos[idx].title;
+    document.getElementById('videoCounter').textContent = videos[idx].counter;
+    vid.src = videos[idx].src;
+    vid.load();
+    vid.play().catch(()=>{});
+    const btn = document.getElementById('continueBtn');
+    btn.textContent = idx === videos.length-1 ? '💕 Continue to Something Special 💕' : '▶ Continue Our Story ▶';
+  }
+
+  function nextVideo() {
+    if (cur < videos.length - 1) {
+      loadVideo(cur + 1);
+    } else {
+      goToPage('page-feelmylove');
+    }
+  }
+
+  function loadLoveVideo() {
+    const vid = document.getElementById('loveVideo');
+    const overlay = document.getElementById('loveLoadingOverlay');
+    overlay.classList.remove('hide');
+    vid.addEventListener('canplay', () => overlay.classList.add('hide'), { once: true });
+    vid.src = BASE + 'Feel my Love .mp4';
+    vid.load();
+    vid.play().catch(()=>{});
+  }
+</script>
+</body>
+</html>
